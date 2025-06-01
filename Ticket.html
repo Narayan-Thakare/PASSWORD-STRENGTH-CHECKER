@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ticket</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anek+Devanagari:wdth,wght@96.8,100..800&family=Open+Sans:wght@500&family=Roboto+Slab:wght@200;400&family=Yatra+One&display=swap"
+        rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <style>
+        /* General Styles */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #d29464;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            /* Prevent scrolling */
+        }
+
+        body {
+            padding: 0 10px;
+            /* Add padding to prevent horizontal overflow */
+            box-sizing: border-box;
+            /* Include padding in element width */
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            left: 11px;
+            color: rgb(0, 0, 0);
+            font-size: 19px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+
+
+        .all-tickets {
+            position: absolute;
+            top: 7px;
+            left: 276px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: underline;
+            color: black;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .all-tickets:hover {
+            text-decoration: none;
+            color: darkred;
+        }
+
+        .ticket {
+            background: #ffffff;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 50px 20px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .line-break {
+            border-top: 2px dashed #ccc;
+            margin: 20px auto;
+            position: relative;
+            right: 10px;
+            width: 105%;
+            height: 20px;
+            margin-bottom: -15px;
+        }
+
+        .numberFont {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .line-break-bottom {
+            border-top: 2px dashed #ccc;
+            margin: 20px auto;
+            position: relative;
+            right: 15px;
+            width: 110%;
+            height: 20px;
+            margin-bottom: 0px;
+        }
+
+        .rotate-symbol {
+            position: absolute;
+            top: -35px;
+            font-size: 50px;
+            color: #ccc;
+        }
+
+        .rotate-symbol.left-symbol {
+            left: -30px;
+            transform: rotate(270deg);
+        }
+
+        .rotate-symbol.right-symbol {
+            right: -35px;
+            transform: rotate(90deg);
+        }
+
+        .ticket-header {
+            background-color: #e21d23;
+            color: white;
+            padding: 10px 0;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 13px 13px 0 0;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            font-weight: 540;
+            box-sizing: border-box;
+        }
+
+       
+
+        .expire-time {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #dcd3d3;
+    color: #222222;
+    padding: 7px 0;
+    font-size: 15px;
+    /* text-transform: uppercase; */
+    border-radius: 0 0 20px 20px;
+    font-weight: 600;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
+        .ticket-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .info-block {
+            text-align: center;
+        }
+
+        .info-title {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .ticket-route {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            margin: 5px 3px;
+        }
+
+        .ticket-route {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            margin: -5px 5px;
+        }
+
+        .route-point {
+            width: 37%;
+            text-align: center;
+            font-weight: 500;
+            color: #4e5451;
+            font-size: 16.8px;
+        }
+
+        .arrow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 22%;
+            position: relative;
+        }
+
+        .arrow {
+            font-size: 10px;
+            color: black;
+            font-weight: lighter;
+            transform: scaleX(6);
+            margin: 0;
+        }
+
+        .triangle-head {
+            font-size: 13px;
+            color: black;
+            position: absolute;
+            right: -5px;
+            top: -3px;
+        }
+
+        .ticket-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: gray;
+            margin: 15px 0;
+        }
+
+        .time-block-booking {
+            justify-content: space-between;
+            text-align: left;
+            margin-right: 68px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .time-block-validity {
+            text-align: left;
+            margin-right: 50px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .ticket-id {
+            font-size: 14px;
+            color: gray;
+            margin: 15px 0;
+        }
+
+        .ticket-info .info-block:nth-child(2) {
+            margin-left: 20%;
+        }
+
+        .ticket-status {
+            font-size: 24px;
+            color: red;
+            font-weight: bold;
+            margin: 15px 0;
+            text-transform: uppercase;
+        }
+
+        .ticket-logo {
+            margin-top: 20px;
+        }
+
+        .timing {
+            color: black;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: left;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .circle {
+            border: 2px dashed gray;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle p:first-child {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+            margin: 0;
+        }
+
+        .circle p:last-child {
+            font-size: 12px;
+            margin: 0;
+            color: gray;
+        }
+
+        .UniqCode {
+            color: #0e0e0e;
+        }
+
+        /* footer */
+        .popup-image {
+            width: 180px;
+            height: auto;
+            position: relative;
+            animation: popup-effect 2s ease-in-out infinite;
+        }
+
+        @keyframes popup-effect {
+
+            0%,
+            100% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .complaint-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            cursor: pointer;
+            padding: 14px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .complaint-icon img {
+            width: 95%;
+            height: 95%;
+            display: block;
+            margin: auto;
+        }
+
+        .ticket-cut1 {
+    width: 34px;
+    height: 34px;
+    background-color: #d29464;
+    color: #333;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 13px;
+
+    position: absolute;
+    bottom: 332px;
+    left: 0%;
+    transform: translateX(-50%);
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */ /* Removed */
+}
+        .ticket-cut2 {
+    width: 34px;
+    height: 34px;
+    background-color: #d29464;
+    color: #333;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 13px;
+
+    position: absolute;
+    bottom: 332px;
+    left: 99.50%;
+    transform: translateX(-50%);
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */ /* Removed */
+}
+
+/* /////////////////////////////////////////// */
+.qr-button {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* Ensure content is centered */
+  padding: 10px 20px;
+  width: 315px; /* <== Increased width */
+  background-color: #a9d1c3;
+  border: 2px solid #438e78;
+  border-radius: 12px;
+  color: #257a36;
+  font-weight: 600;
+  font-size: 16px;
+  font-family: sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  z-index: 1000;
+}
+
+
+.qr-button:hover {
+  background-color: #97cdb5;
+}
+
+.qr-button .icon {
+  margin-right: 10px;
+  font-size: 26px; /* Increased from 18px to 24px */
+}
+
+@media (max-width: 480px) {
+  .qr-button {
+    width: 90%;              /* Full width minus padding */
+    padding: 10px 12px;
+    font-size: 14px;          /* Slightly smaller font */
+    /* bottom: 100; */
+  }
+
+  .qr-button .icon {
+    font-size: 22px;          /* Slightly smaller icon */
+    margin-right: 8px;
+  }
+}
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="close-button2" onclick="goToIndexPage()"><span class="all-tickets" style="margin-left: -250px; margin-top: 15px; display: inline-block; color: #000; font-weight: bold; font-size: 12px;">╳</span></div>
+
+
+    <div class="close-button" onclick="goToIndexPage()">
+        <span class="all-tickets">All tickets</span>
+    </div>
+    
+    <div class="close-button2" onclick="goToIndexPage()">
+        <span class="all-tickets" style="margin-left: -80px; margin-top: 16px; display: inline-block;">Need Help?</span>
+    </div>
+    
+    
+    
+
+
+    <div id="ticketDisplay" class="ticket">
+        <header class="ticket-header">
+            पुणे &nbsp;महानगर &nbsp;परिवहन &nbsp;महामंडळ &nbsp;लि.
+        </header>
+
+       
+        
+       
+        
+
+
+        <div class="ticket-info">
+            <div class="info-block">
+                <p class="info-title">Route</p>
+                <p class="info-value numberFont" id="displayRoute"></p>
+            </div>
+            <div class="info-block">
+                <p class="info-title">Tickets count</p>
+                <p class="info-value" id="displayTicketCount"></p>
+            </div>
+            <div class="info-block">
+                <p class="info-title">Fare</p>
+                <p class="info-value"
+                 id="displayFare"></p>
+            </div>
+        </div>
+
+
+
+        <div class="ticket-route">
+            <p class="route-point" id="displayStartingPoint"></p>
+            <div class="arrow-container">
+                <span class="arrow">━</span>
+                <span class="triangle-head">▶</span>
+            </div>
+            <p class="route-point" id="displayDroppingPoint"></p>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="line-break">
+            <span class="rotate-symbol left-symbol">&#9697;</span>
+            <span class="rotate-symbol right-symbol">&#9697;</span>
+        </div>
+
+        <div class="ticket-cut1"> </div>
+
+        <div class="ticket-cut2"> </div>
+
+        <div class="ticket-time">
+            <div>
+                <p class="time-block-booking">Booking Time</p>
+                <p class="timing numberFont" id="displayBookingTime"></p>
+            </div>
+            <div class="">
+                <p class="time-block-validity">Validity Time</p>
+                <p class="timing" id="displayValidityTime"></p>
+            </div>
+        </div>
+
+        <div class="ticket-id">
+            <p class="UniqCode" id="displayTicketId"></p>
+        </div>
+
+
+        <div class="line-break-bottom"></div>
+        <div class="ticket-footer">
+            <img src="pmpml.png" alt="Ticket Stamp" class="popup-image">
+        </div>
+
+
+        <div class="">
+            <p class="time-block-validity"></p>
+            <p class="timing" id="displayValidityTime"></p>
+          </div>
+          
+          <div class="expire-time" id="countdown" style="color: #808080; font: 14px Arial, sans-serif;">
+            Expires in 00:30:00  
+          </div>
+        
+
+    </div>
+    <!-- <div class="complaint-icon">
+        <img src="https://img.icons8.com/material-rounded/24/complaint.png" alt="complaint"   />
+    </div> -->
+
+    <button class="qr-button">
+        <span class="material-symbols-outlined icon">qr_code</span>
+        Show QR code
+      </button>
+
+    
+    <script>
+        // Function to format date and time as "yymmddhourminute"
+        const generateTicketId = (bookingDate) => {
+            const year = bookingDate.getFullYear().toString().slice(-2); // Last two digits of the year
+            const month = (bookingDate.getMonth() + 1).toString().padStart(2, '0'); // Month (01-12)
+            const day = bookingDate.getDate().toString().padStart(2, '0'); // Day (01-31)
+            const hours = bookingDate.getHours().toString().padStart(2, '0'); // Hours (00-23)
+            const minutes = bookingDate.getMinutes().toString().padStart(2, '0'); // Minutes (00-59)
+
+            // Generate a random alphanumeric string (e.g., "3QBNF8")
+            const randomString = Math.random().toString(36).substr(2, 6).toUpperCase();
+
+            // Combine everything
+            return `${year}${month}${day}${hours}${minutes}${randomString}`;
+        };
+
+        // Function to format the date and time as "07 Dec, 24 | 02:22 PM"
+        const formatDateTime = (date) => {
+            const day = date.getDate().toString().padStart(2, '0'); // Day (07)
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const month = monthNames[date.getMonth()]; // Month (Dec)
+            const year = date.getFullYear().toString().slice(-2); // Year (24)
+            let hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0'); // Minutes (02)
+            const period = hours >= 12 ? 'PM' : 'AM'; // AM/PM
+            hours = hours % 12 || 12; // Convert to 12-hour format
+            return `${day} ${month}, ${year} | ${hours}:${minutes} ${period}`;
+        };
+
+        // Retrieve the stored data from localStorage
+        function goToIndexPage() {
+            window.location.href = "index.html"; // Change "index.html" to your desired page URL
+        }
+
+        const route = localStorage.getItem('route');
+
+        let ticketCount = localStorage.getItem('TicketCount');
+console.log("TicketCount from localStorage:", ticketCount); // Debug
+
+        const fare = localStorage.getItem('fare');
+        const startingPoint = localStorage.getItem('startingPoint');
+        const droppingPoint = localStorage.getItem('droppingPoint');
+
+        // Ensure the ticketCount is a number
+
+        ticketCount = parseInt(ticketCount, 10);
+if (isNaN(ticketCount)) {
+    ticketCount = 1; // Fallback
+}
+        // Booking time from localStorage (if provided, else use the current time)
+        const bookingTime = localStorage.getItem('bookingTime')
+            ? new Date(localStorage.getItem('bookingTime'))
+            : new Date();
+
+        // Format the booking time and calculate validity time
+        const bookingTimeFormatted = formatDateTime(bookingTime);
+        const validityTimeFormatted = formatDateTime(new Date(bookingTime.getTime() + 30 * 60 * 1000)); // 30 minutes from now
+
+        // Generate the ticket ID using the booking time
+        const ticketId = generateTicketId(bookingTime);
+
+        // Display the retrieved data in the HTML elements
+        document.getElementById('displayRoute').textContent = route;
+        document.getElementById('displayTicketCount').textContent = `${ticketCount}F`; // Display the ticket count directly
+        document.getElementById('displayFare').textContent = `₹${fare}`;
+        document.getElementById('displayStartingPoint').textContent = startingPoint;
+        document.getElementById('displayDroppingPoint').textContent = droppingPoint;
+        document.getElementById('displayBookingTime').textContent = bookingTimeFormatted;
+        document.getElementById('displayValidityTime').textContent = validityTimeFormatted;
+        document.getElementById('displayTicketId').textContent = ticketId;
+
+        // Block Pull-to-Refresh
+        window.addEventListener('touchstart', (e) => {
+            let touchStartY = e.touches[0].clientY;
+
+            window.addEventListener('touchmove', (e) => {
+                let touchMoveY = e.touches[0].clientY;
+                if (touchStartY < touchMoveY) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+
+
+///////////////////////////////////////////////////////////////
+function startCountdown(expiryTime) {
+    const countdownEl = document.getElementById('countdown');
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = expiryTime - now;
+
+        if (distance <= 0) {
+            countdownEl.textContent = "Expired";
+            clearInterval(timer);
+            return;
+        }
+
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownEl.textContent = `Expires in ${"00"}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    updateCountdown(); // Initial call
+    const timer = setInterval(updateCountdown, 1000);
+}
+
+// const validityTimeFormatted = formatDateTime(new Date(bookingTime.getTime() + 30 * 60 * 1000));
+
+const validityEndTime = bookingTime.getTime() + 30 * 60 * 1000;
+startCountdown(validityEndTime);
+
+
+    </script>
+</body>
+</html>

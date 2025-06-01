@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Booking Form</title>
+    <style>
+        /* General Styles */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #A6BBB2;
+            font-family: Arial, sans-serif;
+        }
+
+        .ticket-form {
+            background: #ffffff;
+            width: 90%;
+
+            border-radius: 20px;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ee282f;
+        }
+
+        .form-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        label {
+            font-size: 14px;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #ee282f;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #d21b2c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ticket Booking Form -->
+    <div class="ticket-form">
+        <h2>Ticket Booking Form</h2>
+        <form id="ticketForm">
+            <div class="form-group">
+                <label for="route">Route (Alpha-Numeric):</label>
+                <input type="text" id="route" name="route" pattern="[A-Za-z0-9]+" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ticketCount">Ticket Count:</label>
+                
+
+                <select in id="ticketCount" name="ticketCount" required>
+                    <option value="1">1</option>
+                   
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="fare">Fare (₹):</label>
+                <input type="number" id="fare" name="fare" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="startingPoint">Starting Point:</label>
+                <select id="startingPoint" name="startingPoint" required>
+                    <option value="" disabled selected>Select Starting point</option>
+                    <option value="Karve Nagar">Karve Nagar</option>
+                    <option value="Vadacha Stop">Vadacha Stop</option>
+                    <option value="Deccan Gymkhana">Deccan Gymkhana</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="droppingPoint">Dropping Point:</label>
+                <select id="droppingPoint" name="droppingPoint" required>
+                    <option value="" disabled selected>Select dropping point</option>
+                    <option value="Goodluck Chowk">Goodluck Chowk</option>
+                    <option value="Deccan Corner">Deccan Corner</option>
+                    <option value="Deccan Gymkhana">Deccan Gymkhana</option>
+                    <option value="Vadacha Stop">Vadacha Stop</option>
+                    <option value="Karve Nagar">Karve Nagar</option>
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label for="bookingTime">Booking Time:</label>
+                <input type="datetime-local" id="bookingTime" name="bookingTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="validityTime">Validity Time:</label>
+                <input type="text" id="validityTime" name="validityTime" readonly>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to adjust time for local timezone
+        function formatLocalTime(date) {
+            const offset = date.getTimezoneOffset();
+            const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+            return adjustedDate.toISOString().slice(0, 16);
+        }
+
+        // Function to set booking and validity times
+        function setBookingTime() {
+            const bookingTimeInput = document.getElementById('bookingTime');
+            const validityTimeInput = document.getElementById('validityTime');
+
+            // Get current time and set booking time
+            const now = new Date();
+            bookingTimeInput.value = formatLocalTime(now);
+
+            // Set validity time to 30 minutes after booking
+            const validityTime = new Date(now);
+            validityTime.setMinutes(validityTime.getMinutes() + 30);
+            validityTimeInput.value = formatLocalTime(validityTime);
+        }
+
+        // Initialize booking and validity times on page load
+        setBookingTime();
+
+        // Update validity time when booking time changes
+        const bookingTimeInput = document.getElementById('bookingTime');
+        bookingTimeInput.addEventListener('change', (e) => {
+            const newBookingTime = new Date(e.target.value);
+            const validityTimeInput = document.getElementById('validityTime');
+            const validityTime = new Date(newBookingTime);
+            validityTime.setMinutes(validityTime.getMinutes() + 30);
+            validityTimeInput.value = formatLocalTime(validityTime);
+        });
+
+        // Handle form submission
+        const ticketForm = document.getElementById('ticketForm');
+        ticketForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Get values from the form
+            const route = document.getElementById('route').value;
+            const ticketCount = document.getElementById('ticketCount').value;
+            const fare = document.getElementById('fare').value;
+            const startingPoint = document.getElementById('startingPoint').value;
+            const droppingPoint = document.getElementById('droppingPoint').value;
+            const bookingTime = document.getElementById('bookingTime').value;
+            const validityTime = document.getElementById('validityTime').value;
+
+            // Store the values in localStorage
+            localStorage.setItem('route', route);
+            localStorage.setItem('ticketCount', ticketCount);
+            localStorage.setItem('fare', fare);
+            localStorage.setItem('startingPoint', startingPoint);
+            localStorage.setItem('droppingPoint', droppingPoint);
+            localStorage.setItem('bookingTime', bookingTime);
+            localStorage.setItem('validityTime', validityTime);
+
+            // Redirect to the show page to display the ticket
+            window.location.href = "Ticket.html";
+        });
+
+        // Block pull-to-refresh gesture on mobile
+        window.addEventListener('touchstart', (e) => {
+            let touchStartY = e.touches[0].clientY;
+
+            window.addEventListener('touchmove', (e) => {
+                let touchMoveY = e.touches[0].clientY;
+                if (touchStartY < touchMoveY) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+    </script>
+
+</body>
+
+</html>
